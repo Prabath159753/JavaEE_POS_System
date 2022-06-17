@@ -5,5 +5,5 @@ package lk.pos.dao;
  * @since : 0.1.0
  **/
 
-public class SuperDAO {
+public interface SuperDAO {
 }
