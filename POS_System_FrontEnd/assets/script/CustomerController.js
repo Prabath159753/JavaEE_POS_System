@@ -10,10 +10,35 @@ function saveCustomer() {
     let address = $("#txtCusAddress").val();
     let contact = $("#txtCusTp").val();
 
+    let data = $("#customerForm").serialize();
+
     if (name.length !==0 && address.length !==0 && contact.length !==0) {
-        var c = new Customer(cid, name, address, contact)
-        customerDB.push(c);
-        getAllCustomers();
+        console.log(data);
+        $.ajax({
+            url: "http://localhost:8080/pos/customer",
+            method: "POST",
+            data: data,
+            success: function (res) {
+                console.log(res);
+                if (res.status == 200) {
+                    //loadAllCustomer();
+                    alert(res.message);
+                    //resetCustomer();
+                } else {
+                    console.log(res)
+                    alert(res.data);
+                }
+            },
+            error: function (ob, textStatus, error) {
+                console.log(ob);
+                console.log(textStatus);
+                console.log(error);
+            }
+        });
+
+        // var c = new Customer(cid, name, address, contact)
+        // customerDB.push(c);
+        // getAllCustomers();
         // generateCustomerId();
         // name.focus();
     } else {
