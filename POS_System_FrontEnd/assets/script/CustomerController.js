@@ -46,7 +46,7 @@ function saveCustomer() {
 /* get all customer */
 function getAllCustomers() {
     $("#customerTable").empty();
-console.log("1");
+
     $.ajax({
         url: "http://localhost:8080/pos/customer?option=GETALL",
         method: "GET",

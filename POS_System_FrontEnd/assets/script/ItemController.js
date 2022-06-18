@@ -3,6 +3,8 @@
  * @ since : 0.1.0
  **/
 
+getAllItem();
+
 /* save item */
 function saveItem() {
 
@@ -22,7 +24,7 @@ function saveItem() {
             data: JSON.stringify(itemOb),
             success: function (res){
                 if (res.status == 200){
-                    //getAllItem();
+                    getAllItem();
                     alert(res.message);
 
                 }else{
@@ -43,15 +45,23 @@ function saveItem() {
 
 /* get all item */
 function getAllItem() {
-    $("#itemTable").empty();
-    // for (let i = 0; i < itemDB.length; i++) {
-    //
-    //     let row = `<tr><td>${itemDB[i].getCode()}</td><td>${itemDB[i].getDescription()}</td><td>${itemDB[i].getQty()}</td><td>${itemDB[i].getUnitPrice()}</td></tr>`;
-    //     /*select the table body and append the row */
-    //     $("#itemTable").append(row);
-    //
-    // }
+    $("#itemToTable").empty();
+    $.ajax({
+        url:"http://localhost:8080/pos/item?option=GETALL",
+        method:"GET",
+        success:function (resp){
+            for (const item of resp.data){
+                let row = `<tr><td>${item.itemCode}</td><td>${item.name}</td><td>${item.qtyOnHand}</td><td>${item.price}</td></tr>`;
+                $("#itemToTable").append(row);
+
+            }
+            bindClickEvent();
+
+        }
+    });
 }
+
+
 
 /* search item */
 $("#btnSearchItem").click(function () {

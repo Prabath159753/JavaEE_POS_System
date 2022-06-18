@@ -13,7 +13,6 @@ $("#linkCustomer").click(function (){
     $("#customerContent").css("display","block");
     $("#itemContent").css("display","none");
     $("#orderContent").css("display","none");
-    loadAllCustomer();
 
 });
 
@@ -21,7 +20,7 @@ $("#linkItem").click(function (){
     $("#itemContent").css("display","block");
     $("#customerContent").css("display","none");
     $("#orderContent").css("display","none");
-    getAllItem();
+
 });
 
 $("#linkPlaceOder").click(function (){
