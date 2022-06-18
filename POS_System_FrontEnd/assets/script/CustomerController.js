@@ -96,22 +96,36 @@ $("#btnSearchCustomer").click(function () {
 /* Update a Customer */
 $("#btnUpdateCustomer").click(function () {
     if ($("#txtCusName").val().length !== 0) {
-        let cid = $("#txtSearchCusID").val();
-        let name = $("#txtCusName").val();
-        let address = $("#txtCusAddress").val();
-        let contact = $("#txtCusTp").val();
 
-        for (let i = 0; i < customerDB.length; i++) {
-            if (customerDB[i].getCId() === cid ) {
-                customerDB[i].setName(name);
-                customerDB[i].setAddress(address);
-                customerDB[i].setContact(contact);
+        let cusOb = {
+            id: $("#txtSearchCusID").val(),
+            name: $("#txtCusName").val(),
+            address: $("#txtCusAddress").val(),
+            contact: $("#txtCusTp").val()
+        };
+        $.ajax({
+            url: "http://localhost:8080/pos/customer",
+            method: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(cusOb),
+            success: function (res) {
+                if (res.status == 200) {
+                    alert(res.message);
+                    getAllCustomers();
+                    clearAllCustomerForm();
+                    $("#txtSearchCustomer").val("");
+                } else if (res.status == 400) {
+                    alert(res.message);
+                } else {
+                    alert(res.data);
+                }
+            },
+            error: function (ob, errorStus) {
+                console.log(ob);
+                console.log(errorStus);
             }
-        }
-        getAllCustomers();
-        clearAllCustomerForm();
-        alert("Customer was updated!");
-        $("#txtSearchCustomer").val("");
+        });
+
     } else {
         alert("Select a Customer to Update!");
     }
