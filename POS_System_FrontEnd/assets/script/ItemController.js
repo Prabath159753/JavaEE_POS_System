@@ -136,20 +136,36 @@ $("#btnUpdateItem").click(function () {
 /* Remove a Customer */
 $("#btnDeleteItem").click(function () {
     if ($("#txtItemName").val().length !== 0) {
-        let itemId = $("#txtItemCode").val();
+        let itemCode = $("#txtItemCode").val();
 
         let res = confirm("Do you really need to delete this Item..?");
         if (res) {
 
-            for (let i = 0; i < itemDB.length; i++) {
-                if (itemDB[i].getCode() === itemId ) {
-                    itemDB.splice(i, 1);
+            $.ajax({
+                url: "http://localhost:8080/pos/item?itemCode=" + itemCode,
+                method: "DELETE",
+
+                success: function (res) {
+                    console.log(res);
+                    if (res.status == 200) {
+                        alert(res.message);
+                        clearAll();
+                        getAllItem();
+                        $("#txtSearchItemID").val("");
+                    } else if (res.status == 400) {
+                        alert(res.data);
+                    } else {
+                        alert(res.data);
+                    }
+
+                },
+                error: function (ob, status, t) {
+                    console.log(ob);
+                    console.log(status);
+                    console.log(t);
                 }
-            }
-            alert("Item was deleted !");
-            getAllItem();
-            clearAll();
-            $("#txtSearchItemID").val("");
+            });
+
         }
 
     } else {
