@@ -147,5 +147,52 @@ public class CustomerServlet extends HttpServlet {
 
     }
 
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        String customerID = req.getParameter("customerID");
+        resp.setContentType("application/json");
+        PrintWriter writer = resp.getWriter();
+
+        try {
+            Connection connection = dataSource.getConnection();
+
+            if (customerBO.deleteCustomer(connection, customerID)){
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                objectBuilder.add("status",200);
+                objectBuilder.add("data","");
+                objectBuilder.add("message","Successfully Deleted");
+                writer.print(objectBuilder.build());
+            }else {
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                objectBuilder.add("status", 400);
+                objectBuilder.add("data", "Wrong Id Inserted");
+                objectBuilder.add("message", "");
+                writer.print(objectBuilder.build());
+            }
+
+            connection.close();
+
+        } catch (SQLException e) {
+
+            resp.setStatus(200);
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            objectBuilder.add("status", 500);
+            objectBuilder.add("message", "Error");
+            objectBuilder.add("data", e.getLocalizedMessage());
+            writer.print(objectBuilder.build());
+            e.printStackTrace();
+
+        } catch (ClassNotFoundException e) {
+
+            resp.setStatus(200);
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            objectBuilder.add("status", 500);
+            objectBuilder.add("message", "Error");
+            objectBuilder.add("data", e.getLocalizedMessage());
+            writer.print(objectBuilder.build());
+            e.printStackTrace();
+        }
+    }
 
 }

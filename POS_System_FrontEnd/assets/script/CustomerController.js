@@ -120,21 +120,51 @@ $("#btnUpdateCustomer").click(function () {
 /* Remove a Customer */
 $("#btnDeleteCustomer").click(function () {
     if ($("#txtCusName").val().length !== 0) {
-        let cid = $("#txtCusID").val();
+        let customerID = $("#txtCusID").val();
 
         let res = confirm("Do you really need to delete this Customer..?");
+        console.log(customerID);
         if (res) {
+            $.ajax({
+                url: "http://localhost:8080/pos/customer?customerID=" + customerID,
+                method: "DELETE",
 
-            for (let i = 0; i < customerDB.length; i++) {
-                if (customerDB[i].getCId() === cid ) {
-                    customerDB.splice(i, 1);
+                success: function (res) {
+                    console.log(res);
+                    if (res.status == 200) {
+                        alert(res.message);
+                        clearAllCustomerForm();
+                        getAllCustomers();
+                        $("#txtSearchCustomer").val("");
+                    } else if (res.status == 400) {
+                        alert(res.data);
+                    } else {
+                        alert(res.data);
+                    }
+
+                },
+                error: function (ob, status, t) {
+                    alert(status);
+                    console.log(ob);
+                    console.log(status);
+                    console.log(t);
                 }
-            }
-            alert("Customer was deleted!");
-            getAllCustomers();
-            clearAllCustomerForm();
-            $("#txtSearchCustomer").val("");
+            });
         }
+
+
+        // if (res) {
+        //
+        //     for (let i = 0; i < customerDB.length; i++) {
+        //         if (customerDB[i].getCId() === cid ) {
+        //             customerDB.splice(i, 1);
+        //         }
+        //     }
+        //     alert("Customer was deleted!");
+        //     getAllCustomers();
+        //     clearAllCustomerForm();
+        //     $("#txtSearchCustomer").val("");
+        // }
 
     } else {
         alert("Select a Customer to Remove!");
@@ -253,8 +283,6 @@ function formValid() {
         return false;
     }
 }
-
-
 
 function setButton() {
     let b = formValid();
