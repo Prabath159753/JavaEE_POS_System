@@ -6,10 +6,6 @@
 /* save item */
 function saveItem() {
 
-    let name = $("#txtItemName").val();
-    let qty = $("#txtItemQty").val();
-    let price = $("#txtItemPrice").val();
-
     let itemOb = {
         "itemCode": $("#txtItemCode").val(),
         "itemName": $("#txtItemName").val(),
