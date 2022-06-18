@@ -2,7 +2,7 @@
  * @ author : Kavishka Prabath
  * @ since : 0.1.0
  **/
-
+getAllCustomers();
 /* save customer */
 function saveCustomer() {
     let cid = $("#txtCusID").val();
@@ -21,9 +21,9 @@ function saveCustomer() {
             success: function (res) {
                 console.log(res);
                 if (res.status == 200) {
+                    getAllCustomers();
                     //loadAllCustomer();
                     alert(res.message);
-                    //resetCustomer();
                 } else {
                     console.log(res)
                     alert(res.data);
@@ -36,45 +36,61 @@ function saveCustomer() {
             }
         });
 
-        // var c = new Customer(cid, name, address, contact)
-        // customerDB.push(c);
-        // getAllCustomers();
-        // generateCustomerId();
-        // name.focus();
     } else {
         alert("Fields cannot be empty!");
     }
 }
 
+//=======================
+
 /* get all customer */
+
 function getAllCustomers() {
     $("#customerTable").empty();
-    for (let i = 0; i < customerDB.length; i++) {
+console.log("1");
+    $.ajax({
+        url: "http://localhost:8080/pos/customer?option=GETALL",
+        method: "GET",
 
-        let row = `<tr><td>${customerDB[i].getCId()}</td><td>${customerDB[i].getName()}</td><td>${customerDB[i].getAddress()}</td><td>${customerDB[i].getContact()}</td></tr>`;
-        /* select the table body and append the row */
-        $("#customerTable").append(row);
-    }
+        success: function (resp) {
+            for (const customer of resp.data) {
+                let row = `<tr><td>${customer.id}</td><td>${customer.name}</td><td>${customer.address}</td><td>${customer.contact}</td></tr>`;
+                $("#customerTable").append(row);
+                console.log(resp);
+                console.log(resp.data);
+                console.log(customer.id);
+            }
+
+        }
+    });
+
+    // for (let i = 0; i < customerDB.length; i++) {
+    //
+    //     let row = `<tr><td>${customerDB[i].getCId()}</td><td>${customerDB[i].getName()}</td><td>${customerDB[i].getAddress()}</td><td>${customerDB[i].getContact()}</td></tr>`;
+    //     /* select the table body and append the row */
+    //     $("#customerTable").append(row);
+    // }
 }
 
 /* search customer */
 $("#btnSearchCustomer").click(function () {
-    var searchID = $("#txtSearchCusID").val();
-
-    var response = searchCustomer(searchID);
-    console.log(searchID);
-    if (response) {
-        $("#txtCusID").val(response.getCId());
-        $("#txtCusName").val(response.getName());
-        $("#txtCusAddress").val(response.getAddress());
-        $("#txtCusTp").val(response.getContact());
-        $("#lblCusId,#lblCusName,#lblCusAddress,#lblCusTp").text("");
-
-        $("#btnUpdateCustomer,#btnDeleteCustomer").attr('disabled', false);
-    }else{
-        clearAllCustomerForm();
-        alert("No Such a Customer");
-    }
+    getAllCustomers();
+    // var searchID = $("#txtSearchCusID").val();
+    //
+    // var response = searchCustomer(searchID);
+    // console.log(searchID);
+    // if (response) {
+    //     $("#txtCusID").val(response.getCId());
+    //     $("#txtCusName").val(response.getName());
+    //     $("#txtCusAddress").val(response.getAddress());
+    //     $("#txtCusTp").val(response.getContact());
+    //     $("#lblCusId,#lblCusName,#lblCusAddress,#lblCusTp").text("");
+    //
+    //     $("#btnUpdateCustomer,#btnDeleteCustomer").attr('disabled', false);
+    // }else{
+    //     clearAllCustomerForm();
+    //     alert("No Such a Customer");
+    // }
 });
 
 function searchCustomer(id) {
@@ -246,6 +262,21 @@ function formValid() {
     }
 }
 
+
+
+function setButton() {
+    let b = formValid();
+    if (b) {
+        $("#btnSaveCustomer").attr('disabled', false);
+    } else {
+        $("#btnSaveCustomer").attr('disabled', true);
+    }
+}
+
+
+
+//=============================================================
+
 /* check input value valid  */
 function checkIfValid() {
     var cusID = $("#txtCusID").val();
@@ -279,17 +310,25 @@ function checkIfValid() {
     }
 }
 
-function setButton() {
-    let b = formValid();
-    if (b) {
-        $("#btnSaveCustomer").attr('disabled', false);
-    } else {
-        $("#btnSaveCustomer").attr('disabled', true);
-    }
-}
-
 $('#btnSaveCustomer').click(function () {
     checkIfValid();
 });
 
+
+
 /* validation end */
+
+function bindClickEvents() {
+    $("#customerTable>tr").click(function () {
+
+        let id = $(this).children().eq(0).text();
+        let name = $(this).children().eq(1).text();
+        let address = $(this).children().eq(2).text();
+        let contact = $(this).children().eq(3).text();
+
+        $("#txtCusId").val(id);
+        $("#txtCusName").val(name);
+        $("#txtCusAddress").val(address);
+        $("#txtCusContact").val(contact);
+    });
+}
