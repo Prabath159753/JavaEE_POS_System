@@ -4,6 +4,7 @@
  **/
 
 getAllItem();
+bindClickEvent();
 
 /* save item */
 function saveItem() {
@@ -82,32 +83,31 @@ function bindClickEvent() {
 
 /* search item */
 $("#btnSearchItem").click(function () {
-    var searchID = $("#txtSearchItemID").val();
+    let itemCode = $("#txtSearchItemID").val();
 
-    var response = searchItem(searchID);
-    console.log(searchID);
-    if (response) {
-        $("#txtItemCode").val(response.getCode());
-        $("#txtItemName").val(response.getDescription());
-        $("#txtItemQty").val(response.getQty());
-        $("#txtItemPrice").val(response.getUnitPrice());
-        $("#lblItemCode,#lblItemName,#lblItemQty,#lblItemPrice").text("");
+    $.ajax({
+        url:"http://localhost:8080/pos/item?option=SEARCH&itemCode=" + itemCode,
+        method:"GET",
+        success:function (resp){
 
-        $("#btnUpdateItem,#btnDeleteItem").attr('disabled', false);
+            $("#txtItemCode").val(resp.itemCode);
+            $("#txtItemName").val(resp.name);
+            $("#txtItemQty").val(resp.qtyOnHand);
+            $("#txtItemPrice").val(resp.price);
 
-    }else{
-        clearAll();
-        alert("No Such a Item");
-    }
-});
+            $("#btnUpdateItem,#btnDeleteItem").attr('disabled', false);
+            $("#lblItemCode,#lblItemName,#lblItemQty,#lblItemPrice").text("");
 
-function searchItem(id) {
-    for (let i = 0; i < itemDB.length; i++) {
-        if (itemDB[i].getCode() == id) {
-            return itemDB[i];
+            bindClickEvent();
+        },
+        error: function (ob, statusText, error) {
+            alert("No Such Customer");
+            getAllCustomers();
+            clearAll();
         }
-    }
-}
+    });
+
+});
 
 /* Update a Customer */
 $("#btnUpdateItem").click(function () {
