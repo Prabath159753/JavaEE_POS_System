@@ -5,16 +5,40 @@
 
 /* save item */
 function saveItem() {
-    let itemid = $("#txtItemCode").val();
+
     let name = $("#txtItemName").val();
     let qty = $("#txtItemQty").val();
     let price = $("#txtItemPrice").val();
 
+    let itemOb = {
+        "itemCode": $("#txtItemCode").val(),
+        "itemName": $("#txtItemName").val(),
+        "itemQty": $("#txtItemQty").val(),
+        "itemPrice": $("#txtItemPrice").val()
+    };
 
-    if (name.length !==0 && qty.length !==0 && price.length !==0) {
-        itemDB.push(new Item(itemid, name, qty, price));
-        getAllItem();
-        // generateCustomerId();
+    if ($("#txtItemName").val().length !==0 && $("#txtItemQty").val().length !==0 && $("#txtItemPrice").val().length !==0) {
+
+        $.ajax({
+            url:"http://localhost:8080/pos/item",
+            method:"POST",
+            contentType: "application/json",
+            data: JSON.stringify(itemOb),
+            success: function (res){
+                if (res.status == 200){
+                    //getAllItem();
+                    alert(res.message);
+
+                }else{
+                    alert(res.data);
+                }
+            },
+            error: function (ob, textStatus, error) {
+                console.log(ob);
+                console.log(textStatus);
+                console.log(error);
+            }
+        });
 
     } else {
         alert("Fields cannot be empty!");
@@ -24,13 +48,13 @@ function saveItem() {
 /* get all item */
 function getAllItem() {
     $("#itemTable").empty();
-    for (let i = 0; i < itemDB.length; i++) {
-
-        let row = `<tr><td>${itemDB[i].getCode()}</td><td>${itemDB[i].getDescription()}</td><td>${itemDB[i].getQty()}</td><td>${itemDB[i].getUnitPrice()}</td></tr>`;
-        /*select the table body and append the row */
-        $("#itemTable").append(row);
-
-    }
+    // for (let i = 0; i < itemDB.length; i++) {
+    //
+    //     let row = `<tr><td>${itemDB[i].getCode()}</td><td>${itemDB[i].getDescription()}</td><td>${itemDB[i].getQty()}</td><td>${itemDB[i].getUnitPrice()}</td></tr>`;
+    //     /*select the table body and append the row */
+    //     $("#itemTable").append(row);
+    //
+    // }
 }
 
 /* search item */

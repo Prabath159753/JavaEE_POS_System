@@ -113,62 +113,64 @@
 
 <!-- Item Content Start-->
 <section class="container-fluid mt-3" id="itemContent">
-    <section class="row mt-3 justify-content-around">
-        <div class="col-12 col-md-4">
-            <div class="shadow-sm pt-3 pb-5 px-3 py-3 mt-2">
-                <h1 class="h1 mb-3">Item Manage</h1>
-                <div class="mb-3">
-                    <label class="form-label" for="txtSearchItemID">Search Item</label>
-                    <input class="form-control" id="txtSearchItemID" placeholder="Item Code" type="text">
+    <form id="itemForm">
+        <section class="row mt-3 justify-content-around">
+            <div class="col-12 col-md-4">
+                <div class="shadow-sm pt-3 pb-5 px-3 py-3 mt-2">
+                    <h1 class="h1 mb-3">Item Manage</h1>
+                    <div class="mb-3">
+                        <label class="form-label" for="txtSearchItemID">Search Item</label>
+                        <input class="form-control" id="txtSearchItemID" placeholder="Item Code" type="text">
+                    </div>
+                    <button class="btn btn-primary" id="btnSearchItem">Search</button>
                 </div>
-                <button class="btn btn-primary" id="btnSearchItem">Search</button>
             </div>
-        </div>
-        <div class="col-12 col-md-5">
-            <div class="mb-3">
-                <label class="form-label" for="txtItemCode">Item Code</label>
-                <input class="form-control" id="txtItemCode" placeholder="Item Code" type="text">
-                <p><small class="text-danger pl-1" id="lblItemCode"></small></p>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="txtItemName">Item Name</label>
-                <input class="form-control" id="txtItemName" placeholder="Item Name" type="text">
-                <p><small class="text-danger pl-1" id="lblItemName"></small></p>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="txtItemQty">Item Qty</label>
-                <input class="form-control" id="txtItemQty" placeholder="Item Qty" type="text">
-                <p><small class="text-danger pl-1" id="lblItemQty"></small></p>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="txtItemPrice">Item Price</label>
-                <input class="form-control" id="txtItemPrice" placeholder="Item Price" type="text">
-                <p><small class="text-danger pl-1" id="lblItemPrice"></small></p>
-            </div>
+            <div class="col-12 col-md-5">
+                <div class="mb-3">
+                    <label class="form-label" for="txtItemCode">Item Code</label>
+                    <input class="form-control" id="txtItemCode" name="itemCode" placeholder="Item Code" type="text">
+                    <p><small class="text-danger pl-1" id="lblItemCode"></small></p>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="txtItemName">Item Name</label>
+                    <input class="form-control" id="txtItemName" name="itemName" placeholder="Item Name" type="text">
+                    <p><small class="text-danger pl-1" id="lblItemName"></small></p>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="txtItemQty">Item Qty</label>
+                    <input class="form-control" id="txtItemQty" name="itemQuantity" placeholder="Item Qty" type="text">
+                    <p><small class="text-danger pl-1" id="lblItemQty"></small></p>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="txtItemPrice">Item Price</label>
+                    <input class="form-control" id="txtItemPrice" name="itemPrice" placeholder="Item Price" type="text">
+                    <p><small class="text-danger pl-1" id="lblItemPrice"></small></p>
+                </div>
 
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button class="btn btn-primary me-md-2" id="btnSaveItem">Save</button>
-                <button class="btn btn-success me-md-2" id="btnUpdateItem">Update</button>
-                <button class="btn btn-danger me-md-2" id="btnDeleteItem">Delete</button>
-            </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-primary me-md-2" id="btnSaveItem">Save</button>
+                    <button class="btn btn-success me-md-2" id="btnUpdateItem">Update</button>
+                    <button class="btn btn-danger me-md-2" id="btnDeleteItem">Delete</button>
+                </div>
 
-        </div>
-    </section>
-    <section class="row mt-4">
-        <div class="col">
-            <table class="table table-hover">
-                <thead class="bg-danger">
-                <tr>
-                    <th>Item Code</th>
-                    <th>Item Name</th>
-                    <th>Item Qty</th>
-                    <th>Item Price</th>
-                </tr>
-                </thead>
-                <tbody id="itemTable"></tbody>
-            </table>
-        </div>
-    </section>
+            </div>
+        </section>
+        <section class="row mt-4">
+            <div class="col">
+                <table class="table table-hover">
+                    <thead class="bg-danger">
+                    <tr>
+                        <th>Item Code</th>
+                        <th>Item Name</th>
+                        <th>Item Qty</th>
+                        <th>Item Price</th>
+                    </tr>
+                    </thead>
+                    <tbody id="itemTable"></tbody>
+                </table>
+            </div>
+        </section>
+    </form>
 </section>
 <!-- Item Content End-->
 
