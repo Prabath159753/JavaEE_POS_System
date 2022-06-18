@@ -2,7 +2,9 @@
  * @ author : Kavishka Prabath
  * @ since : 0.1.0
  **/
+
 getAllCustomers();
+
 /* save customer */
 function saveCustomer() {
     let cid = $("#txtCusID").val();
@@ -41,10 +43,7 @@ function saveCustomer() {
     }
 }
 
-//=======================
-
 /* get all customer */
-
 function getAllCustomers() {
     $("#customerTable").empty();
 console.log("1");
@@ -60,46 +59,39 @@ console.log("1");
                 console.log(resp.data);
                 console.log(customer.id);
             }
-
         }
     });
 
-    // for (let i = 0; i < customerDB.length; i++) {
-    //
-    //     let row = `<tr><td>${customerDB[i].getCId()}</td><td>${customerDB[i].getName()}</td><td>${customerDB[i].getAddress()}</td><td>${customerDB[i].getContact()}</td></tr>`;
-    //     /* select the table body and append the row */
-    //     $("#customerTable").append(row);
-    // }
 }
 
 /* search customer */
 $("#btnSearchCustomer").click(function () {
-    getAllCustomers();
-    // var searchID = $("#txtSearchCusID").val();
-    //
-    // var response = searchCustomer(searchID);
-    // console.log(searchID);
-    // if (response) {
-    //     $("#txtCusID").val(response.getCId());
-    //     $("#txtCusName").val(response.getName());
-    //     $("#txtCusAddress").val(response.getAddress());
-    //     $("#txtCusTp").val(response.getContact());
-    //     $("#lblCusId,#lblCusName,#lblCusAddress,#lblCusTp").text("");
-    //
-    //     $("#btnUpdateCustomer,#btnDeleteCustomer").attr('disabled', false);
-    // }else{
-    //     clearAllCustomerForm();
-    //     alert("No Such a Customer");
-    // }
-});
 
-function searchCustomer(id) {
-    for (let i = 0; i < customerDB.length; i++) {
-        if (customerDB[i].getCId() == id) {
-            return customerDB[i];
+    let searchID = $("#txtSearchCusID").val();
+    $("#customerTable").empty();
+
+    $.ajax({
+        url: "http://localhost:8080/pos/customer?option=SEARCH&customerID=" + searchID,
+        method: "GET",
+        success: function (resp) {
+            console.log(resp.data);
+            $("#txtCusID").val(resp.id);
+            $("#txtCusName").val(resp.name);
+            $("#txtCusAddress").val(resp.address);
+            $("#txtCusTp").val(resp.contact);
+
+            getAllCustomers();
+            //bindClickEvents();
+        },
+        error: function (ob, statusText, error) {
+            alert("No Such Customer");
+            getAllCustomers();
         }
-    }
-}
+
+    });
+
+    $("#btnUpdateCustomer,#btnDeleteCustomer").attr('disabled', false);
+});
 
 /* Update a Customer */
 $("#btnUpdateCustomer").click(function () {
@@ -273,10 +265,6 @@ function setButton() {
     }
 }
 
-
-
-//=============================================================
-
 /* check input value valid  */
 function checkIfValid() {
     var cusID = $("#txtCusID").val();
@@ -313,8 +301,6 @@ function checkIfValid() {
 $('#btnSaveCustomer').click(function () {
     checkIfValid();
 });
-
-
 
 /* validation end */
 
