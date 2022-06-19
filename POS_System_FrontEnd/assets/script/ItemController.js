@@ -112,22 +112,36 @@ $("#btnSearchItem").click(function () {
 /* Update a Customer */
 $("#btnUpdateItem").click(function () {
     if ($("#txtItemName").val().length !== 0) {
-        let itemId = $("#txtItemCode").val();
-        let name = $("#txtItemName").val();
-        let qty = $("#txtItemQty").val();
-        let price = $("#txtItemPrice").val();
 
-        for (let i = 0; i < itemDB.length; i++) {
-            if (itemDB[i].getCode() === itemId ) {
-                itemDB[i].setDescription(name);
-                itemDB[i].setQty(qty);
-                itemDB[i].setUnitPrice(price);
+        let itemOb = {
+            itemCode: $("#txtItemCode").val(),
+            itemName: $("#txtItemName").val(),
+            itemQty: $("#txtItemQty").val(),
+            itemPrice: $("#txtItemPrice").val()
+        };
+        $.ajax({
+            url: "http://localhost:8080/pos/item",
+            method: "PUT",
+            contentType: "application/json",
+            data: JSON.stringify(itemOb),
+            success: function (res){
+                if (res.status == 200){
+                    alert(res.message);
+                    clearAll();
+                    getAllItem();
+                    $("#txtSearchItemID").val("");
+                } else if (res.status == 400){
+                    alert(res.message);
+                } else {
+                    alert(res.data);
+                }
+            },
+            error: function (ob, errorStus) {
+                console.log(ob);
+                console.log(errorStus);
             }
-        }
-        getAllItem();
-        clearAll();
-        alert("Item was updated!");
-        $("#txtSearchItemID").val("");
+        });
+
     } else {
         alert("Select a Item to Update!");
     }
