@@ -4,6 +4,7 @@
  **/
 
 generateOrderId();
+loadCustomerIds();
 
 /* ------ generate order id ------ */
 function generateOrderId() {
@@ -11,7 +12,7 @@ function generateOrderId() {
     $("#txtOrderID").val("O00-0001");
 
     $.ajax({
-        url: "orders?option=GETID",
+        url: "http://localhost:8080/pos/orders?option=GETID",
         method: "GET",
         success: function (resp) {
             let orderId = resp.orderId;
@@ -37,10 +38,23 @@ function generateOrderId() {
 /*-------------------Customer Sec-----------------------*/
 
 function loadCustomerIds() {
-    $("#selectCusID").empty();
-    for (var i = 0; i <customerDB.length ; i++) {
-        $("#selectCusID").append($("<option></option>").attr("value", i).text(customerDB[i].getCId()));
-    }
+    $("#txtOrderCusID").empty();
+    $("#txtOrderCusID").append($("<option></option>").attr("value", 0).text("Select Customer"));
+    let count = 0;
+    $.ajax({
+        url: "http://localhost:8080/pos/customer?option=GETALL",
+        method: "GET",
+        success: function (res) {
+            for (const customer of res.data) {
+                $("#txtOrderCusID").append($("<option></option>").attr("value", count).text(customer.id));
+                count++;
+            }
+        },
+        error: function (ob, textStatus, error) {
+            alert(textStatus);
+        }
+    });
+
 }
 
 $("#selectCusID").click(function () {
