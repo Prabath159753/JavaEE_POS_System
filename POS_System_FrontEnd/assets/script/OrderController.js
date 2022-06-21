@@ -3,34 +3,35 @@
  * @ since : 0.1.0
  **/
 
+generateOrderId();
+
 /* ------ generate order id ------ */
 function generateOrderId() {
-    $("#txtOrderID").val("O-0001");
 
-    if(orderDB.length!=0){
-        var orderId=orderDB[orderDB.length-1].getOrderId();
-        console.log(orderId);
-        var tempId = parseInt(orderId.split("-")[1]);
-        // var tempId = parseInt(orderId.substring(1,4))
+    $("#txtOrderID").val("O00-0001");
 
-        // let lastCustomerId = orderDB[orderDB.length-1].getOrderId();
+    $.ajax({
+        url: "orders?option=GETID",
+        method: "GET",
+        success: function (resp) {
+            let orderId = resp.orderId;
+            let tempId = parseInt(orderId.split("-")[1]);
+            tempId = tempId+1;
+            if (tempId <= 9){
+                $("#txtOrderID").val("O00-000"+tempId);
+            }else if (tempId <= 99) {
+                $("#txtOrderID").val("O00-00" + tempId);
+            }else if (tempId <= 999){
+                $("#txtOrderID").val("O00-0" + tempId);
+            }else {
+                $("#txtOrderID").val("O00-"+tempId);
+            }
+        },
+        error: function (ob, statusText, error) {
 
-        // let newCustomerId = parseInt(lastCustomerId.substring(2,6))+1;
-        // tempId = newCustomerId;
-        tempId = tempId+1;
-
-        if (tempId <= 9){
-            $("#txtOrderID").val("O-000"+tempId);
-        }else if (tempId <= 99) {
-            $("#txtOrderID").val("O-00" + tempId);
-        }else if (tempId <= 999){
-            $("#txtOrderID").val("O-0" + tempId);
-        }else {
-            $("#txtOrderID").val("O-"+tempId);
         }
-    }else{
-        $("#txtOrderID").val("O-0001");
-    }
+    });
+
 }
 
 /*-------------------Customer Sec-----------------------*/
