@@ -151,7 +151,6 @@ $("#btnUpdateItem").click(function () {
 $("#btnDeleteItem").click(function () {
     if ($("#txtItemName").val().length !== 0) {
         let itemCode = $("#txtItemCode").val();
-
         let res = confirm("Do you really need to delete this Item..?");
         if (res) {
 
