@@ -72,10 +72,23 @@ $("#selectCusID").click(function () {
 /*-------------------Item Sec-----------------------*/
 
 function loadItemCodes() {
-    $("#selectItemCode").empty();
-    for (var i = 0; i <itemDB.length ; i++) {
-        $("#selectItemCode").append($("<option></option>").attr("value", i).text(itemDB[i].getCode()));
-    }
+    $("#txtOrderItemCode").empty();
+    $("#txtOrderItemCode").append($("<option></option>").attr("value", 0).text("Select Item"));
+    let count = 0;
+    $.ajax({
+        url: "http://localhost:8080/pos/item?option=GETALL",
+        method: "GET",
+        success: function (res) {
+            for (const item of res.data) {
+                $("#txtOrderItemCode").append($("<option></option>").attr("value", count).text(item.itemCode));
+                count++;
+            }
+        },
+        error: function (ob, textStatus, error) {
+            alert(textStatus);
+        }
+    });
+
 }
 
 $("#selectItemCode").click(function () {
