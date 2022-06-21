@@ -57,17 +57,47 @@ function loadCustomerIds() {
 
 }
 
-$("#selectCusID").click(function () {
-    for (var i = 0; i < customerDB.length; i++) {
-        if ($("#selectCusID option:selected").text()==customerDB[i].getCId()){
-            $("#orderCusName").val(customerDB[i].getName());
+$("#txtOrderCusID").click(function () {
 
-            $("#orderCusContact").val(customerDB[i].getContact());
+    let id = $("#txtOrderCusID option:selected").text();
+    let name = $("#txtOrderCusName").val();
+    let address = $("#txtOrderCusAddress").val();
+    let contact = $("#txtOrderCusContact").val();
 
-            $("#orderCusAddress").val(customerDB[i].getAddress());
+    $.ajax({
+        url: "http://localhost:8080/pos/customer?option=GETALL",
+        method: "GET",
+        success: function (resp) {
+            for (const customer of resp.data) {
+
+                if (customer.id == id) {
+
+                    name = customer.name;
+                    address = customer.address;
+                    contact = customer.contact;
+
+                    $("#txtOrderCusName").val(name);
+                    $("#txtOrderCusAddress").val(address);
+                    $("#txtOrderCusContact").val(contact);
+                }
+
+            }
         }
-    }
+    });
+
+
 });
+// $("#selectCusID").click(function () {
+//     for (var i = 0; i < customerDB.length; i++) {
+//         if ($("#selectCusID option:selected").text()==customerDB[i].getCId()){
+//             $("#orderCusName").val(customerDB[i].getName());
+//
+//             $("#orderCusContact").val(customerDB[i].getContact());
+//
+//             $("#orderCusAddress").val(customerDB[i].getAddress());
+//         }
+//     }
+// });
 
 /*-------------------Item Sec-----------------------*/
 
