@@ -152,7 +152,7 @@ $("#txtOrderItemCode").click(function () {
 
 });
 
-/* ------ oder qty validation ------ */
+/* ------ Order qty validation ------ */
 
 var regExSellQuantity=/^[0-9]{1,20}$/;
 
@@ -173,27 +173,37 @@ $("#txtOrderQty").keyup(function (event) {
 
 /* ----------------------- Order Table ----------------------- */
 
-/* if add new row , qtyOnHand changes */
-function manageAddQty(qty){
-    var votevalue = parseInt(qty);
-    for (var j = 0; j < itemDB.length; j++) {
-        if ($("#selectItemCode option:selected").text() == itemDB[j].getCode()){
-            var manageQty=parseInt(itemDB[j].getQty());
-            manageQty-=votevalue;
-            itemDB[j].setQty(manageQty);
-        }
-    }
-}
-
-/* if add new gross*/
-var grossAmount=0;
-function calculateGrossAmount(gross){
-    grossAmount+=gross;
-    $("#gross").text(grossAmount);
-    console.log(grossAmount);
-}
-
 var tblOrderRow;
+
+$("#btnAddToCart").click(function () {
+
+    $("#btnPurchase").attr('disabled', true);
+
+    if ($("#txtOrderCusName").val() == '') {
+        alert("Please Select Customer ....");
+    } else if ($("#txtOrderItemName").val() == '') {
+        alert("Please Select Item ....");
+    } else if ($("#txtOrderQty").val() == "") {
+        alert("Please Enter Quantity ....");
+    } else if ($("#errorOrderQty").text() != "") {
+        alert("Please Enter Valid Quantity ....");
+    } else if (parseInt($("#txtOrderQty").val()) > parseInt($("#txtOrderItemQtyOnHand").val())){
+        alert("Please Check Stock ....");
+    }else {
+
+        let text = "Do you really want to add to cart this Item ? ";
+        $("#btnPurchase").attr('disabled', false);
+
+        if (confirm(text) == true) {
+
+        }
+
+    }
+
+
+});
+
+
 var click="not clicked";
 
 $("#btnAddCart").click(function () {
@@ -400,6 +410,26 @@ $("#btnAddCart").click(function () {
     });
 
 });
+
+/* if add new row , qtyOnHand changes */
+function manageAddQty(qty){
+    var votevalue = parseInt(qty);
+    for (var j = 0; j < itemDB.length; j++) {
+        if ($("#selectItemCode option:selected").text() == itemDB[j].getCode()){
+            var manageQty=parseInt(itemDB[j].getQty());
+            manageQty-=votevalue;
+            itemDB[j].setQty(manageQty);
+        }
+    }
+}
+
+/* if add new gross*/
+var grossAmount=0;
+function calculateGrossAmount(gross){
+    grossAmount+=gross;
+    $("#gross").text(grossAmount);
+    console.log(grossAmount);
+}
 
 
 
