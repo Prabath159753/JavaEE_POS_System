@@ -87,17 +87,6 @@ $("#txtOrderCusID").click(function () {
 
 
 });
-// $("#selectCusID").click(function () {
-//     for (var i = 0; i < customerDB.length; i++) {
-//         if ($("#selectCusID option:selected").text()==customerDB[i].getCId()){
-//             $("#orderCusName").val(customerDB[i].getName());
-//
-//             $("#orderCusContact").val(customerDB[i].getContact());
-//
-//             $("#orderCusAddress").val(customerDB[i].getAddress());
-//         }
-//     }
-// });
 
 /*-------------------Item Sec-----------------------*/
 
@@ -121,17 +110,32 @@ function loadItemCodes() {
 
 }
 
-$("#selectItemCode").click(function () {
+$("#txtOrderItemCode").click(function () {
 
-    for (var i = 0; i < itemDB.length; i++) {
-        if ($("#selectItemCode option:selected").text()==itemDB[i].getCode()){
+    let id = $("#txtOrderItemCode option:selected").text();
+    let name = $("#txtOrderItemName").val();
+    let qtyOnHand = $("#txtOrderItemQtyOnHand").val();
+    let price = $("#txtOrderItemPrice").val();
 
-            $("#txtOrderItemDescription").val(itemDB[i].getDescription());
-            $("#txtOrderQtyOnHand").val(itemDB[i].getQty());
-            $("#txtOrderItemPrice").val(itemDB[i].getUnitPrice());
+    $.ajax({
+        url: "http://localhost:8080/pos/item?option=GETALL",
+        method: "GET",
+        success: function (resp) {
+            for (const item of resp.data) {
+                if (item.itemCode == id) {
 
+                    name = item.name;
+                    qtyOnHand = item.qtyOnHand;
+                    price = item.price;
+
+                    $("#txtOrderItemName").val(name);
+                    $("#txtOrderItemQtyOnHand").val(qtyOnHand);
+                    $("#txtOrderItemPrice").val(price);
+                }
+            }
         }
-    }
+    });
+
 });
 
 /* ------ oder qty validation ------ */
