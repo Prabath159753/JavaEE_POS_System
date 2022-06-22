@@ -196,6 +196,20 @@ $("#btnAddToCart").click(function () {
 
         if (confirm(text) == true) {
 
+            let duplicate = false;
+
+            for (let i = 0; i < $("#addToCartTable tr").length; i++) {
+                if ($("#txtOrderItemCode option:selected").text() == $("#addToCartTable tr").children(':nth-child(1)')[i].innerText) {
+                    duplicate = true;
+                }
+            }
+
+            if (duplicate != true) {
+
+            } else if (duplicate == true) {
+
+            }
+
         }
 
     }
