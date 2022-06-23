@@ -206,6 +206,8 @@ $("#btnAddToCart").click(function () {
 
             if (duplicate != true) {
 
+                loadOrderDetail();
+
             } else if (duplicate == true) {
 
             }
@@ -214,9 +216,34 @@ $("#btnAddToCart").click(function () {
 
     }
 
-
 });
 
+var itemCode;
+var itemName;
+var itemPrice;
+var itemQtyOnHand;
+var itemOrderQty;
+
+$("#addToCartTable").empty();
+
+function loadOrderDetail() {
+
+    itemCode = $("#txtOrderItemCode option:selected").text();
+    itemName = $("#txtOrderItemName").val();
+    itemPrice = $("#txtOrderItemPrice").val();
+    itemQtyOnHand = $("#txtOrderItemQtyOnHand").val();
+    itemOrderQty = $("#txtOrderQty").val();
+
+    let total = itemPrice * itemOrderQty;
+
+    let raw = `<tr><td> ${itemCode} </td><td> ${itemName} </td><td> ${itemPrice} </td><td> ${itemOrderQty} </td><td> ${total} </td><td> <input id='btnEdit' class='btn btn-success btn-sm' value='Update' style="width: 75px"/> </td><td> <input id='btnDelete' class='btn btn-danger btn-sm' value='Delete' style="width: 75px"/> </td></tr>`;
+
+    $("#addToCartTable").append(raw);
+
+    // manageDiscount();
+    // bindOrderClickEvent();
+
+}
 
 var click="not clicked";
 
@@ -306,7 +333,9 @@ $("#btnAddCart").click(function () {
                     calculateGrossAmount(gross);
                     calculateNetAmount(net);
 
-                    let raw = `<tr><td> ${itemCode} </td><td> ${itemName} </td><td> ${sellQty} </td><td> ${unitPrice} </td><td> ${net} </td><td> <input id='btnEdit' class='btn btn-success btn-sm' value='Update' style="width: 75px"/> </td><td> <input id='btnDelete' class='btn btn-danger btn-sm' value='Delete' style="width: 75px"/> </td></tr>`;
+                    let raw = `<tr><td> ${itemCode} </td><td> ${itemName} </td><td> ${sellQty} </td><td> ${unitPrice} </td><td> ${net} </td>
+<td> <input id='btnEdit' class='btn btn-success btn-sm' value='Update' style="width: 75px"/> </td>
+<td> <input id='btnDelete' class='btn btn-danger btn-sm' value='Delete' style="width: 75px"/> </td></tr>`;
                     $("#tblOrder tbody").append(raw);
 
                 }else if(parseInt($("#txtOrderQtyOnHand").val()) < sellQty){
