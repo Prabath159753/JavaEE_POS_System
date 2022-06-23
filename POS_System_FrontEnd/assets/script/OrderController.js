@@ -207,6 +207,7 @@ $("#btnAddToCart").click(function () {
             if (duplicate != true) {
 
                 loadOrderDetail();
+                minusQty($("#txtOrderQty").val());
 
             } else if (duplicate == true) {
 
@@ -243,6 +244,16 @@ function loadOrderDetail() {
     // manageDiscount();
     // bindOrderClickEvent();
 
+}
+
+function minusQty(orderQty) {
+    var minusQty = parseInt(orderQty);
+    var manageQty = parseInt($("#txtOrderItemQtyOnHand").val());
+
+    manageQty = manageQty - minusQty;
+
+    $("#txtOrderItemQtyOnHand").val(manageQty);
+    bindOrderClickEvent();
 }
 
 var click="not clicked";
