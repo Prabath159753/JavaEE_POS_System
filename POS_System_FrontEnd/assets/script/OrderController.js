@@ -208,6 +208,7 @@ $("#btnAddToCart").click(function () {
 
                 loadOrderDetail();
                 minusQty($("#txtOrderQty").val());
+                manageTotal($("#txtOrderQty").val() * $("#txtOrderItemPrice").val());
 
             } else if (duplicate == true) {
 
@@ -254,6 +255,15 @@ function minusQty(orderQty) {
 
     $("#txtOrderItemQtyOnHand").val(manageQty);
     bindOrderClickEvent();
+}
+
+var total = 0;
+
+function manageTotal(amount) {
+    total += amount;
+    parseInt($("#total").text(total));
+
+    manageDiscount();
 }
 
 var click="not clicked";
