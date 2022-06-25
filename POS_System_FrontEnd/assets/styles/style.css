@@ -85,11 +85,19 @@ div.form-group label{
 }
 #total-text{
     color: #3d98ef;
-    font-size: 13px;
+    font-size: 18px;
 }
 #total-text1{
+    color: #3d98ef;
+    font-size: 18px;
+}
+#subTotal-text{
     color: #ef5350;
-    font-size: 13px;
+    font-size: 18px;
+}
+#subTotal-text1{
+    color: #ef5350;
+    font-size: 18px;
 }
 section.content-box-2 label{
     font-weight: bold;
@@ -108,10 +116,10 @@ div.form-group label{
 }
 
 #total{
-    font-size: 25px;
+    font-size: 30px;
     color: #3d98ef;
 }
 #subtotal{
     color: #ef5350;
-    font-size: 70px;
+    font-size: 30px;
 }

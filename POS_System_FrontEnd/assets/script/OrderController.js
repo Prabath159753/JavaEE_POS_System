@@ -209,6 +209,7 @@ $("#btnAddToCart").click(function () {
                 loadOrderDetail();
                 minusQty($("#txtOrderQty").val());
                 manageTotal($("#txtOrderQty").val() * $("#txtOrderItemPrice").val());
+                manageDiscount();
 
             } else if (duplicate == true) {
 
@@ -264,6 +265,33 @@ function manageTotal(amount) {
     parseInt($("#total").text(total));
 
     manageDiscount();
+}
+
+function manageDiscount() {
+    var net = parseInt($("#total").text());
+    var discount = 0;
+
+    if (net > 500 && net < 999) {
+        discount = 2;
+        parseInt($("#txtDiscount").val(discount));
+    } else if (net > 1000 && net < 2999) {
+        discount = 4;
+        parseInt($("#txtDiscount").val(discount));
+    } else if (net > 3000 && net < 4999) {
+        discount = 5;
+        parseInt($("#txtDiscount").val(discount));
+    } else if (net > 5000 && net < 9999) {
+        discount = 8;
+        parseInt($("#txtDiscount").val(discount));
+    } else if (net > 10000) {
+        discount = 10;
+        parseInt($("#txtDiscount").val(discount));
+    }
+
+    var subTotal = (net * discount) / 100;
+    subTotal = net - subTotal;
+    parseInt($("#subtotal").text(subTotal));
+
 }
 
 var click="not clicked";
