@@ -173,7 +173,7 @@ $("#txtOrderQty").keyup(function (event) {
 
 /* ----------------------- Order Table ----------------------- */
 
-var tblOrderRow;
+var tableRow;
 
 $("#btnAddToCart").click(function () {
 
@@ -212,7 +212,12 @@ $("#btnAddToCart").click(function () {
                 manageDiscount();
 
             } else if (duplicate == true) {
-                manageQuantity(tableRow.children(':nth-child(4)').text(), $("#txtQty").val());
+
+                manageQuantity(tableRow.children(':nth-child(4)').text(), $("#txtOrderQty").val());
+                $(tableRow).children(':nth-child(4)').text($("#txtOrderQty").val());
+
+                updateManageTotal(tableRow.children(':nth-child(5)').text(), $("#txtOrderQty").val() * $("#txtOrderItemPrice").val());
+                $(tableRow).children(':nth-child(5)').text($("#txtOrderQty").val() * $("#txtOrderItemPrice").val());
             }
 
         }
@@ -262,6 +267,15 @@ var total = 0;
 
 function manageTotal(amount) {
     total += amount;
+    parseInt($("#total").text(total));
+
+    manageDiscount();
+}
+
+function updateManageTotal(prvTotal, nowTotal) {
+    total -= prvTotal;
+    total += nowTotal;
+
     parseInt($("#total").text(total));
 
     manageDiscount();
