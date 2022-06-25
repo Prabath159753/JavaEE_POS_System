@@ -212,7 +212,7 @@ $("#btnAddToCart").click(function () {
                 manageDiscount();
 
             } else if (duplicate == true) {
-
+                manageQuantity(tableRow.children(':nth-child(4)').text(), $("#txtQty").val());
             }
 
         }
@@ -243,7 +243,7 @@ function loadOrderDetail() {
 
     $("#addToCartTable").append(raw);
 
-    // manageDiscount();
+    manageDiscount();
     // bindOrderClickEvent();
 
 }
@@ -292,6 +292,17 @@ function manageDiscount() {
     subTotal = net - subTotal;
     parseInt($("#subtotal").text(subTotal));
 
+}
+
+function manageQuantity(prevQty, nowQty) {
+    var prevQty = parseInt(prevQty);
+    var nowQty = parseInt(nowQty);
+    var availableQty = parseInt($("#txtOrderItemQtyOnHand").val());
+
+    availableQty += prevQty;
+    availableQty -= nowQty;
+
+    $("#txtOrderItemQtyOnHand").val(availableQty);
 }
 
 var click="not clicked";
