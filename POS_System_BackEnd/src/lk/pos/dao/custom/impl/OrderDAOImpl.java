@@ -71,7 +71,8 @@ public class OrderDAOImpl implements OrderDAO {
         if (resultSet.next()){
             return resultSet.getString(1);
         }else {
-            return null;
+            //return null;
+            return "O-0001";
         }
     }
 

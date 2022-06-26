@@ -116,4 +116,64 @@ public class PlaceOrderServlet extends HttpServlet {
 
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        try {
+            resp.setContentType("application/json");
+            Connection connection = dataSource.getConnection();
+            PrintWriter writer = resp.getWriter();
+
+            JsonReader reader = Json.createReader(req.getReader());
+            JsonObject jsonObject = reader.readObject();
+            JsonArray oDetail = jsonObject.getJsonArray("ODetail");
+
+            ArrayList<OrderDetailsDTO> orderDetailsDTOS = new ArrayList<>();
+            for (JsonValue orderDetail: oDetail) {
+                JsonObject asJsonObject = orderDetail.asJsonObject();
+                orderDetailsDTOS.add(new OrderDetailsDTO(
+                        asJsonObject.getString("oId"),
+                        asJsonObject.getString("itemCode"),
+                        Integer.parseInt(asJsonObject.getString("qty")),
+                        Double.parseDouble(asJsonObject.getString("price")),
+                        Double.parseDouble(asJsonObject.getString("total"))
+                ));
+
+            }
+
+            OrdersDTO ordersDTO = new OrdersDTO(
+                    jsonObject.getString("orderID"),
+                    jsonObject.getString("cId"),
+                    Date.valueOf(jsonObject.getString("orderDate")),
+                    Double.parseDouble(jsonObject.getString("total")),
+                    Double.parseDouble(jsonObject.getString("discount")),
+                    Double.parseDouble(jsonObject.getString("subTotal")),
+                    orderDetailsDTOS
+            );
+
+            if (orderBO.saveOrder(connection, ordersDTO)){
+                resp.setStatus(HttpServletResponse.SC_OK);
+                JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+                objectBuilder.add("status",resp.getStatus());
+                objectBuilder.add("message","Successfully Added");
+                objectBuilder.add("data","");
+
+                writer.print(objectBuilder.build());
+            }
+
+            connection.close();
+
+        } catch (SQLException | ClassNotFoundException throwables) {
+
+            resp.setStatus(HttpServletResponse.SC_OK);
+            JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+            objectBuilder.add("status", resp.getStatus());
+            objectBuilder.add("message", "Error");
+            objectBuilder.add("data", throwables.getLocalizedMessage());
+            throwables.printStackTrace();
+
+            throwables.printStackTrace();
+        }
+
+    }
 }
