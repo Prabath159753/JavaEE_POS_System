@@ -282,6 +282,14 @@ function updateManageTotal(prvTotal, nowTotal) {
     manageDiscount();
 }
 
+function deleteManageTotal(deleteTotal) {
+    total -= deleteTotal;
+
+    parseInt($("#total").text(total));
+
+    manageDiscount();
+}
+
 function manageDiscount() {
     var net = parseInt($("#total").text());
     var discount = 0;
@@ -330,7 +338,7 @@ function btnDeleteItemFromCart() {
             $(this).parent().parent().remove();
 
             var delItemsTotal=parseInt($(this).parent().parent().children(':nth-child(5)').text());
-
+            deleteManageTotal(delItemsTotal);
 
         } else {
 
