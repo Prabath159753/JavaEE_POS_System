@@ -165,7 +165,7 @@ $("#txtOrderQty").keyup(function (event) {
     let sellQty = $("#txtOrderQty").val();
     if (regExSellQuantity.test(sellQty)){
         $("#txtOrderQty").css('border','1px solid blue');
-        $("#errorOrderlQty").text("");
+        $("#errorOrderQty").text("");
         if (event.key=="Enter"){
             $("#btnAddToTable").focus();
         }
@@ -203,6 +203,7 @@ $("#btnAddToCart").click(function () {
             let duplicate = false;
 
             for (let i = 0; i < $("#addToCartTable tr").length; i++) {
+                console.log($("#addToCartTable tr").children(':nth-child(1)')[i].innerText);
                 if ($("#txtOrderItemCode option:selected").text() == $("#addToCartTable tr").children(':nth-child(1)')[i].innerText) {
                     duplicate = true;
                 }
@@ -216,19 +217,7 @@ $("#btnAddToCart").click(function () {
                 manageDiscount();
 
             } else if (duplicate == true) {
-                //$(tblOrderRow).children(':nth-child(4)').text(sellQty);
-                //tableRow.children(':nth-child(4)').text()
-                //var code=tableRow.children(':nth-child(1)').text();
-                //console.log(code);
-                $(tableRow).children(':nth-child(4)').text($("#txtOrderQty").val());
-                manageQuantity(tableRow.children(':nth-child(4)').text(), $("#txtOrderQty").val());
 
-
-                //manageQuantity(tableRow.children(':nth-child(4)').text(), $("#txtOrderQty").val());
-                //$(tableRow).children(':nth-child(4)').text($("#txtOrderQty").val());
-
-                updateManageTotal(tableRow.children(':nth-child(5)').text(), $("#txtOrderQty").val() * $("#txtOrderItemPrice").val());
-                $(tableRow).children(':nth-child(5)').text($("#txtOrderQty").val() * $("#txtOrderItemPrice").val());
             }
 
         }
@@ -260,7 +249,8 @@ function loadOrderDetail() {
     $("#addToCartTable").append(raw);
 
     manageDiscount();
-    // bindOrderClickEvent();
+    btnDeleteItemFromCart();
+    //bindOrderClickEvent();
 
 }
 
@@ -295,20 +285,21 @@ function updateManageTotal(prvTotal, nowTotal) {
 function manageDiscount() {
     var net = parseInt($("#total").text());
     var discount = 0;
+    parseInt($("#txtDiscount").val(discount));
 
     if (net > 500 && net < 999) {
         discount = 2;
         parseInt($("#txtDiscount").val(discount));
-    } else if (net > 1000 && net < 2999) {
+    } else if (net >= 1000 && net < 2999) {
         discount = 4;
         parseInt($("#txtDiscount").val(discount));
-    } else if (net > 3000 && net < 4999) {
+    } else if (net >= 3000 && net < 4999) {
         discount = 5;
         parseInt($("#txtDiscount").val(discount));
-    } else if (net > 5000 && net < 9999) {
+    } else if (net >= 5000 && net < 9999) {
         discount = 8;
         parseInt($("#txtDiscount").val(discount));
-    } else if (net > 10000) {
+    } else if (net >= 10000) {
         discount = 10;
         parseInt($("#txtDiscount").val(discount));
     }
@@ -328,6 +319,13 @@ function manageQuantity(prevQty, nowQty) {
     availableQty -= nowQty;
 
     $("#txtOrderItemQtyOnHand").val(availableQty);
+}
+
+function btnDeleteItemFromCart() {
+    $("#tblOrder tbody tr").off("click");
+    $("#tblOrder tbody tr").on('click','#btnDelete',function () {
+
+    });
 }
 
 // var click="not clicked";
