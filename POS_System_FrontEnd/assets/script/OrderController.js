@@ -324,7 +324,17 @@ function manageQuantity(prevQty, nowQty) {
 function btnDeleteItemFromCart() {
     $("#tblOrder tbody tr").off("click");
     $("#tblOrder tbody tr").on('click','#btnDelete',function () {
+        let text = "Are you sure you want to remove this Item from cart?";
 
+        if (confirm(text) == true) {
+            $(this).parent().parent().remove();
+
+            var delItemsTotal=parseInt($(this).parent().parent().children(':nth-child(5)').text());
+
+
+        } else {
+
+        }
     });
 }
 
