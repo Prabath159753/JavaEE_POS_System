@@ -216,10 +216,13 @@ $("#btnAddToCart").click(function () {
                 manageTotal($("#txtOrderQty").val() * $("#txtOrderItemPrice").val());
                 manageDiscount();
 
+                itemTextFieldClear();
+                //bindOrderClickEvent();
+
             } else if (duplicate == true) {
 
             }
-
+            //bindOrderClickEvent();
         }
 
     }
@@ -344,6 +347,14 @@ function btnDeleteItemFromCart() {
 
         }
     });
+}
+
+function itemTextFieldClear() {
+    loadItemCodes();
+    $("#txtOrderItemQtyOnHand").val("");
+    $("#txtOrderItemPrice").val("");
+    $("#txtOrderItemName").val("");
+    $("#txtOrderQty").val("");
 }
 
 // var click="not clicked";
