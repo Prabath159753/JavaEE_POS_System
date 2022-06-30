@@ -18,8 +18,7 @@ function generateOrderId() {
         success: function (resp) {
             let orderId = resp.orderId;
             let tempId = parseInt(orderId.split("-")[1]);
-            if (tempId != 1){
-                tempId = tempId+1;
+            if (tempId != 0){
                 if (tempId <= 9){
                     $("#txtOrderID").val("O-000"+tempId);
                 }else if (tempId <= 99) {
@@ -394,6 +393,64 @@ $("#cash").keyup(function (event) {
     balance = cash - subtotal;
 
     parseInt($("#txtBalance").val(balance));
+
+});
+
+$("#btnSubmitOrder").click(function () {
+
+    let orderDetails = [];
+
+    if (parseInt($("#subtotal").text()) > parseInt($("#cash").val())){
+        alert("Please need more money");
+        $("#txtCash").val('');
+    }else{
+        var discount = parseInt($("#total").text()) - parseInt($("#subtotal").text());
+
+
+        for (let i = 0; i < $("#addToCartTable > tr").length; i++) {
+            var OrderDetail = {
+                oId : $("#txtOrderID").val(),
+                itemCode : $("#addToCartTable > tr").children(':nth-child(1)')[i].innerText,
+                qty : $("#addToCartTable > tr").children(':nth-child(4)')[i].innerText,
+                price : $("#addToCartTable > tr").children(':nth-child(3)')[i].innerText,
+                total : $("#addToCartTable > tr").children(':nth-child(5)')[i].innerText
+
+            }
+            orderDetails.push(OrderDetail);
+        }
+
+        var orderOb = {
+            orderID:$("#txtOrderID").val(),
+            cId:$("#txtOrderCusID option:selected").text(),
+            orderDate:$("#txtOrderDate").val(),
+            total:$("#total").text(),
+            discount:discount.toString(),
+            subTotal:$("#subtotal").text(),
+            ODetail : orderDetails
+        };
+
+        if ($("#txtCash").val() == '') {
+            alert("Please Enter Cash");
+        }else {
+            $.ajax({
+                url: "http://localhost:8080/pos/orders",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(orderOb),
+                success: function (resp) {
+                    itemTextFieldClear();
+                    customerTextFieldClear();
+                    $("#addToCartTable").empty();
+                    alert("Successfully Added");
+
+                },
+                error: function (ob, textStatus, error) {
+                    alert(textStatus);
+                }
+            });
+
+        }
+    }
 
 });
 
