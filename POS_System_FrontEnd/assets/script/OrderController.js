@@ -357,6 +357,14 @@ function itemTextFieldClear() {
     $("#txtOrderQty").val("");
 }
 
+function customerTextFieldClear() {
+    loadCustomerIds();
+    $("#txtOrderCusName").val("");
+    $("#txtOrderCusContact").val("");
+    $("#txtOrderCusAddress").val("");
+}
+
+
 // var click="not clicked";
 //
 // $("#btnAddCart").click(function () {
