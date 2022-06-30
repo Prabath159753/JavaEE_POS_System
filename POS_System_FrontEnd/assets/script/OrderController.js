@@ -374,17 +374,26 @@ $("#btnNew").click(function () {
 
     $("#tblOrder tbody").empty();
 
-    var discount = 0;
-    parseInt($("#txtDiscount").val(discount));
-
     total = 0;
     parseInt($("#total").text("00.0"));
     parseInt($("#subtotal").text("00.0"));
 
     $("#cash").css('border', '1px solid gray');
-    parseInt($("#cash").text("00.0"));
+    $("#cash").val("");
 
-    parseInt($("#txtBalance").text("00.0"));
+    $("#txtBalance").val("");
+    $("#txtDiscount").val("");
+
+});
+
+$("#cash").keyup(function (event) {
+    let balance = 0;
+    let subtotal = parseInt($("#subtotal").text());
+    let cash = parseInt($("#cash").val());
+
+    balance = cash - subtotal;
+
+    parseInt($("#txtBalance").val(balance));
 
 });
 
