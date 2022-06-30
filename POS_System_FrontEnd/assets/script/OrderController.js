@@ -355,6 +355,8 @@ function itemTextFieldClear() {
     $("#txtOrderItemPrice").val("");
     $("#txtOrderItemName").val("");
     $("#txtOrderQty").val("");
+    $("#txtOrderQty").css('border','1px solid gray');
+    $("#errorOrderQty").text("");
 }
 
 function customerTextFieldClear() {
@@ -364,6 +366,27 @@ function customerTextFieldClear() {
     $("#txtOrderCusAddress").val("");
 }
 
+$("#btnNew").click(function () {
+
+    generateOrderId();
+    itemTextFieldClear();
+    customerTextFieldClear();
+
+    $("#tblOrder tbody").empty();
+
+    var discount = 0;
+    parseInt($("#txtDiscount").val(discount));
+
+    total = 0;
+    parseInt($("#total").text("00.0"));
+    parseInt($("#subtotal").text("00.0"));
+
+    $("#cash").css('border', '1px solid gray');
+    parseInt($("#cash").text("00.0"));
+
+    parseInt($("#txtBalance").text("00.0"));
+
+});
 
 // var click="not clicked";
 //
