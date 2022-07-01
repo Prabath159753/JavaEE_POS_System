@@ -4,6 +4,7 @@
  **/
 
 getAllCustomers();
+bindClickEvents();
 
 /* save customer */
 function saveCustomer() {
@@ -59,6 +60,7 @@ function getAllCustomers() {
                 console.log(resp.data);
                 console.log(customer.id);
             }
+            bindClickEvents();
         }
     });
 
@@ -81,7 +83,7 @@ $("#btnSearchCustomer").click(function () {
             $("#txtCusTp").val(resp.contact);
 
             getAllCustomers();
-            //bindClickEvents();
+            bindClickEvents();
         },
         error: function (ob, statusText, error) {
             alert("No Such Customer");
@@ -166,20 +168,6 @@ $("#btnDeleteCustomer").click(function () {
             });
         }
 
-
-        // if (res) {
-        //
-        //     for (let i = 0; i < customerDB.length; i++) {
-        //         if (customerDB[i].getCId() === cid ) {
-        //             customerDB.splice(i, 1);
-        //         }
-        //     }
-        //     alert("Customer was deleted!");
-        //     getAllCustomers();
-        //     clearAllCustomerForm();
-        //     $("#txtSearchCustomer").val("");
-        // }
-
     } else {
         alert("Select a Customer to Remove!");
     }
@@ -214,7 +202,7 @@ $('#txtCusID,#txtCusName,#txtCusAddress,#txtCusTp').on('blur', function () {
     formValid();
 });
 
-//focusing events
+/* focusing events */
 $("#txtCusID").on('keyup', function (eventOb) {
     setButton();
     if (eventOb.key == "Enter") {
@@ -346,6 +334,7 @@ $('#btnSaveCustomer').click(function () {
 
 /* validation end */
 
+/* clicked table row customer details loard textfield */
 function bindClickEvents() {
     $("#customerTable>tr").click(function () {
 
@@ -354,9 +343,9 @@ function bindClickEvents() {
         let address = $(this).children().eq(2).text();
         let contact = $(this).children().eq(3).text();
 
-        $("#txtCusId").val(id);
+        $("#txtCusID").val(id);
         $("#txtCusName").val(name);
         $("#txtCusAddress").val(address);
-        $("#txtCusContact").val(contact);
+        $("#txtCusTp").val(contact);
     });
 }
