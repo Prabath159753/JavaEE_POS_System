@@ -186,6 +186,7 @@ $("#btnDeleteItem").click(function () {
     }
 });
 
+/* clear all text fileld */
 function clearAll() {
     $('#txtItemCode,#txtItemName,#txtItemQty,#txtItemPrice').val("");
     $('#txtItemCode,#txtItemName,#txtItemQty,#txtItemPrice').css('border', '2px solid #ced4da');
@@ -194,7 +195,6 @@ function clearAll() {
     getAllCustomers();
     $("#lblItemCode,#lblItemName,#lblItemQty,#lblItemPrice").text("");
 }
-
 
 
 /* validation started */
@@ -249,7 +249,7 @@ $("#txtItemPrice").on('keyup', function (eventOb) {
 
 $("#btnSaveItem").attr('disabled', true);
 
-/* print condition for unvalid input */
+/* print condition for invalid input */
 function itemFormValid() {
     var cusID = $("#txtItemCode").val();
     $("#txtItemCode").css('border', '1px solid blue');
@@ -324,6 +324,7 @@ function checkIfValidItem() {
     }
 }
 
+/* check data and set save button */
 function setItemSaveButton() {
     let b = itemFormValid();
     if (b) {
@@ -333,6 +334,7 @@ function setItemSaveButton() {
     }
 }
 
+/* save button function */
 $('#btnSaveItem').click(function () {
     checkIfValidItem();
 });
