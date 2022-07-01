@@ -39,7 +39,10 @@
                     <a class="nav-link text-white" class="nav-link font-weight-bold text-white" id="linkItem" href="#">Item</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" class="nav-link font-weight-bold text-white" id="linkPlaceOder" href="#">Place Oder</a>
+                    <a class="nav-link text-white" class="nav-link font-weight-bold text-white" id="linkPlaceOder" href="#">Place Order</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" class="nav-link font-weight-bold text-white" id="linkPurchaseOrder" href="#">Search Order</a>
                 </li>
             </ul>
         </div>
@@ -173,7 +176,7 @@
 </section>
 <!-- Item Content End-->
 
-<!--Order Content Start-->
+<!-- Order Content Start -->
 <section class="container-fluid" id="orderContent">
     <div class="container-fluid mt-1">
         <!--main tile-->
@@ -378,8 +381,62 @@
         </div>
     </div>
 </section>
-<!--Order Content Ended-->
+<!-- Order Content Ended -->
 
+<!-- Purchase Orders Manage Content Start -->
+<section class="container-fluid mt-5" id="purchaseOrderContent">
+    <section class="row mt-4 justify-content-md-center">
+        <div class="col col-lg-8">
+            <input class="form-control shadow-sm" id="txtSearchOrderId" type="text"  placeholder="Search Order Id">
+        </div>
+        <div class="col-md-auto">
+            <button class="btn btn-success" type="submit" id="btnSearchOrder">Search Order</button>
+        </div>
+        <div class="col col-lg-1">
+            <button class="btn btn-primary" type="reset" id="btnClearSearchOrderField">Clear</button>
+        </div>
+    </section>
+
+
+    <section class="row mt-4 justify-content-around">
+        <div class="col" style="height:350px; overflow-y: scroll">
+            <table class="table table-hover">
+                <thead class="bg-primary text-white">
+                <tr class="head">
+                    <th>Order ID</th>
+                    <th>Customer Id</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Discount</th>
+                    <th>Sub Total</th>
+                </tr>
+                </thead>
+                <tbody id="orderTable">
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <section class="row">
+        <div class="col mt-3" style="height:300px; overflow-y: scroll">
+            <table class="table table-hover">
+                <thead class="bg-primary text-white">
+                <tr class="head">
+                    <th>Order ID</th>
+                    <th>Item Code</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody id="orderDetailTable">
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
+<!-- Purchase Orders Manage Content End  -->
 
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/jQuery/jquery-3.6.0.min.js"></script>
