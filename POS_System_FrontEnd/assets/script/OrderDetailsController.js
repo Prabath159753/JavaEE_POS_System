@@ -6,7 +6,7 @@
 loadAllOrders();
 bindOrderDetailsClickEvent();
 
-/* ------------------- Load All Orders to Order Table------------------- */
+/* ------------------- Load All Orders to Order Table ------------------- */
 function loadAllOrders(){
     $("#orderTable").empty();
     $.ajax({
@@ -51,15 +51,15 @@ function bindOrderDetailsClickEvent(){
 
 $("#btnSearchOrder").click(function () {
     let searchOid = $("#txtSearchOrderId").val();
-    searchOrderByOrderDetailTable(searchOid);
     searchOrderByOrderTable(searchOid);
+    searchOrderByOrderDetailTable(searchOid);
 });
 
-// Search Order details from Order Table and Order Detail Table
+/* ------------------- Search Order from Order Table ------------------- */
 function searchOrderByOrderTable(orderId) {
 
     $.ajax({
-        url: "http://localhost:8080/pos/order?option=SEARCHORDER&orderId=" + orderId,
+        url: "http://localhost:8080/pos/orders?option=SEARCHORDER&orderId=" + orderId,
         method: "GET",
         success: function (res) {
             if (res.status == 200) {
@@ -69,13 +69,27 @@ function searchOrderByOrderTable(orderId) {
             } else {
                 loadAllOrders();
                 //loadOrderDetailTable();
-                swal({
-                    title: "Error!",
-                    text: "Order Not Found",
-                    icon: "warning",
-                    button: "Close",
-                    timer: 2000
-                });
+
+                alert("Error! Order Not Found");
+
+            }
+        },
+        error: function (ob, textStatus, error) {
+            alert(textStatus);
+        }
+    });
+}
+
+/* ------------------- Search Order details from Order Detail Table ------------------- */
+function searchOrderByOrderDetailTable(orderId) {
+    $("#orderDetailTable").empty();
+    $.ajax({
+        url: "http://localhost:8080/pos/orders?option=SEARCH&orderId=" + orderId,
+        method: "GET",
+        success: function (res) {
+            for (let orderDetail of res) {
+                let tableRow = `<tr><td>${orderDetail.oId}</td><td>${orderDetail.iCode}</td><td>${orderDetail.qty}</td><td>${orderDetail.price}</td><td>${orderDetail.total}</td></tr>`;
+                $("#orderDetailTable").append(tableRow);
             }
         }
     });
