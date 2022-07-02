@@ -106,6 +106,25 @@ public class PlaceOrderServlet extends HttpServlet {
                     writer.print(orderBO.ordersCount(connection));
 
                     break;
+
+                case "SEARCHORDER":
+                    String orderId = req.getParameter("orderId");
+                    OrdersDTO order = orderBO.searchOrder(connection, orderId);
+                    System.out.println(order);
+                    JsonObjectBuilder searchOrder = Json.createObjectBuilder();
+                    if (order != null) {
+                        searchOrder.add("status", 200);
+                        searchOrder.add("orderId", order.getOrderId());
+                        searchOrder.add("cid", order.getcId());
+                        searchOrder.add("orderDate", String.valueOf(order.getOrderDate()));
+                        searchOrder.add("total", order.getTotal());
+                        searchOrder.add("discount", order.getDiscount());
+                        searchOrder.add("subTotal", order.getSubTotal());
+                    } else {
+                        searchOrder.add("status", 400);
+                    }
+                    writer.print(searchOrder.build());
+                    break;
             }
 
             connection.close();
