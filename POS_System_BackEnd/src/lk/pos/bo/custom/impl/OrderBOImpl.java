@@ -60,19 +60,32 @@ public class OrderBOImpl implements OrderBO {
             boolean orderAdded = orderDAO.add(orders, connection);
 
             if (orderAdded) {
-                if (saveOrderDetail(connection, ordersDTO)) {
-                    connection.commit();
-                    return true;
-                } else {
-                    connection.rollback();
-                    return false;
+
+                for (OrderDetailsDTO item : ordersDTO.getOrderDetail()) {
+                    OrderDetails orderDetails = new OrderDetails(item.getoId(), item.getiCode(), item.getoQty(), item.getPrice(), item.getTotal());
+                    boolean ifOrderDetailSaved = orderDetailsDAO.add(orderDetails, connection);
+
+                    if (!ifOrderDetailSaved) {
+                        connection.rollback();
+                        return false;
+                    }
+
+                }
+
+                for (OrderDetailsDTO item : ordersDTO.getOrderDetail()) {
+                    boolean ifUpdateQty = itemDAO.updateQtyOnHand(connection, item.getiCode(), item.getoQty());
+
+                    if (!ifUpdateQty) {
+                        connection.rollback();
+                        return false;
+                    }
+
                 }
 
             } else {
                 connection.rollback();
                 return false;
             }
-
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -90,7 +103,7 @@ public class OrderBOImpl implements OrderBO {
     public boolean saveOrderDetail(Connection connection, OrdersDTO ordersDTO) throws SQLException, ClassNotFoundException {
 
         for (OrderDetailsDTO item : ordersDTO.getOrderDetail()) {
-
+            System.out.println(2);
             OrderDetails orderDetails = new OrderDetails(
                     item.getoId(), item.getiCode(), item.getoQty(), item.getPrice(), item.getTotal());
 

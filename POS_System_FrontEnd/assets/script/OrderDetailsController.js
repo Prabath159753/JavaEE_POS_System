@@ -19,7 +19,6 @@ function loadAllOrders(){
                 $("#orderTable").append(row);
 
             }
-            //bindOrderDetailsClickEvent();
         }
     });
 }

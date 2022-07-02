@@ -19,6 +19,7 @@ function generateOrderId() {
             let orderId = resp.orderId;
             let tempId = parseInt(orderId.split("-")[1]);
             if (tempId != 0){
+                tempId = tempId+1;
                 if (tempId <= 9){
                     $("#txtOrderID").val("O-000"+tempId);
                 }else if (tempId <= 99) {
@@ -415,7 +416,7 @@ $("#cash").keyup(function (event) {
 /* ------------------- Place Order ------------------- */
 $("#btnSubmitOrder").click(function () {
 
-    let orderDetails = [];
+    var orderDetails = [];
 
     if (parseInt($("#subtotal").text()) > parseInt($("#cash").val())){
         alert("Please need more money");
