@@ -125,6 +125,22 @@ public class PlaceOrderServlet extends HttpServlet {
                     }
                     writer.print(searchOrder.build());
                     break;
+
+                case "GETALLORDERDETAILS":
+                    ObservableList<OrderDetailsDTO> allOrderDetails = orderBO.getAllOrderDetails(connection);
+                    JsonArrayBuilder arrayBuilder2 = Json.createArrayBuilder();
+                    for (OrderDetailsDTO orderDetail : allOrderDetails){
+                        JsonObjectBuilder ob = Json.createObjectBuilder();
+                        ob.add("oId",orderDetail.getoId());
+                        ob.add("iCode",orderDetail.getiCode());
+                        ob.add("qty",orderDetail.getoQty());
+                        ob.add("price",orderDetail.getPrice());
+                        ob.add("total",orderDetail.getTotal());
+                        arrayBuilder2.add(ob.build());
+                    }
+                    writer.write(String.valueOf(arrayBuilder2.build()));
+                    break;
+
             }
 
             connection.close();

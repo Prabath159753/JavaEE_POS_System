@@ -4,6 +4,7 @@
  **/
 
 loadAllOrders();
+//loadOrderDetailTable();
 bindOrderDetailsClickEvent();
 
 /* ------------------- Load All Orders to Order Table ------------------- */
@@ -68,7 +69,7 @@ function searchOrderByOrderTable(orderId) {
                 $("#orderTable").append(tableRow);
             } else {
                 loadAllOrders();
-                //loadOrderDetailTable();
+                loadOrderDetailTable();
 
                 alert("Error! Order Not Found");
 
