@@ -194,4 +194,14 @@ public class OrderBOImpl implements OrderBO {
         return orderDAO.ordersCount(connection);
     }
 
+    @Override
+    public OrdersDTO searchOrder(Connection connection, String id) throws SQLException, ClassNotFoundException {
+        Orders order = orderDAO.search(id, connection);
+        System.out.println(order);
+        if (order != null) {
+            return new OrdersDTO(order.getOrderId(), order.getcId(), order.getOrderDate(), order.getTotal(), order.getDiscount(),order.getSubTotal());
+        }
+        return null;
+    }
+
 }

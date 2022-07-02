@@ -37,4 +37,6 @@ public interface OrderBO extends SuperBO {
     ArrayList<ItemDTO> getAllItems(Connection connection)throws SQLException, ClassNotFoundException;
 
     int ordersCount(Connection connection) throws SQLException, ClassNotFoundException;
+
+    OrdersDTO searchOrder(Connection connection, String id) throws SQLException, ClassNotFoundException;
 }

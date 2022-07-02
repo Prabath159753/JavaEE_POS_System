@@ -34,8 +34,20 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public Orders search(String s, Connection connection) throws SQLException, ClassNotFoundException {
-        return null;
+    public Orders search(String id, Connection connection) throws SQLException, ClassNotFoundException {
+        ResultSet resultSet = CrudUtil.executeQuery(connection,"SELECT * FROM orders WHERE orderId=?", id);
+        Orders order = null;
+        while (resultSet.next()) {
+            order = new Orders(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getDate(3),
+                    resultSet.getDouble(4),
+                    resultSet.getDouble(5),
+                    resultSet.getDouble(6)
+            );
+        }
+        return order;
     }
 
     @Override
