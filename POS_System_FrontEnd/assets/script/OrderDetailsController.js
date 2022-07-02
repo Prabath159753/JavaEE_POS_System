@@ -4,6 +4,7 @@
  **/
 
 loadAllOrders();
+bindOrderDetailsClickEvent();
 
 /* ------------------- Load All Orders to Order Table------------------- */
 function loadAllOrders(){
@@ -48,4 +49,34 @@ function bindOrderDetailsClickEvent(){
     });
 }
 
-bindOrderDetailsClickEvent();
+$("#btnSearchOrder").click(function () {
+    let searchOid = $("#txtSearchOrderId").val();
+    searchOrderByOrderDetailTable(searchOid);
+    searchOrderByOrderTable(searchOid);
+});
+
+// Search Order details from Order Table and Order Detail Table
+function searchOrderByOrderTable(orderId) {
+
+    $.ajax({
+        url: "http://localhost:8080/pos/order?option=SEARCHORDER&orderId=" + orderId,
+        method: "GET",
+        success: function (res) {
+            if (res.status == 200) {
+                $("#orderTable").empty();
+                let tableRow = `<tr><td>${res.orderId}</td><td>${res.cid}</td><td>${res.orderDate}</td><td>${res.total}</td><td>${res.discount}</td><td>${res.subTotal}</td></tr>`;
+                $("#orderTable").append(tableRow);
+            } else {
+                loadAllOrders();
+                //loadOrderDetailTable();
+                swal({
+                    title: "Error!",
+                    text: "Order Not Found",
+                    icon: "warning",
+                    button: "Close",
+                    timer: 2000
+                });
+            }
+        }
+    });
+}
