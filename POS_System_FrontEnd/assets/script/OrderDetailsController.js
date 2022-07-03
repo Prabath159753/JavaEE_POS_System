@@ -66,6 +66,27 @@ function bindOrderDetailsClickEvent(){
     });
 }
 
+/* ------------------- Search Order ------------------- */
+let regOrderId = /^(O-)[0-9]{4}$/;
+
+/* ------------------- add validation to search order text field ------------------- */
+$("#txtSearchOrderId").keyup(function (event) {
+    let searchOid = $("#txtSearchOrderId").val();
+    if (regOrderId.test(searchOid)) {
+        $("#txtSearchOrderId").css('border', '2px solid green');
+        if (event.key == "Enter") {
+            searchOrderByOrderDetailTable(searchOid);
+            searchOrderByOrderTable(searchOid);
+        }
+    } else {
+        $("#txtSearchOrderId").css('border', '2px solid red');
+    }
+});
+
+$("#searchOrder").on('shown.bs.modal', function () {
+    $(this).find("#txtSearchOrderId").focus();
+});
+
 $("#btnSearchOrder").click(function () {
     let searchOid = $("#txtSearchOrderId").val();
     searchOrderByOrderTable(searchOid);
