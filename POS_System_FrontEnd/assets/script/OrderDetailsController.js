@@ -4,7 +4,7 @@
  **/
 
 loadAllOrders();
-//loadOrderDetailTable();
+loadOrderDetailTable();
 bindOrderDetailsClickEvent();
 
 /* ------------------- Load All Orders to Order Table ------------------- */
@@ -24,6 +24,22 @@ function loadAllOrders(){
             bindOrderDetailsClickEvent();
         }
     });
+}
+
+/* ------------------- Load Order Details Table ------------------- */
+function loadOrderDetailTable() {
+    $("#orderDetailTable").empty();
+    $.ajax({
+        url: "http://localhost:8080/pos/orders?option=GETALLORDERDETAILS",
+        method: "GET",
+        success: function (res) {
+            console.log(res.data);
+            for (let orderDetail of res) {
+                let tableRow = `<tr><td>${orderDetail.oId}</td><td>${orderDetail.iCode}</td><td>${orderDetail.qty}</td><td>${orderDetail.price}</td><td>${orderDetail.total}</td></tr>`;
+                $("#orderDetailTable").append(tableRow);
+            }
+        }
+    })
 }
 
 function bindOrderDetailsClickEvent(){
