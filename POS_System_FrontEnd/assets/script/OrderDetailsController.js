@@ -132,3 +132,13 @@ function searchOrderByOrderDetailTable(orderId) {
         }
     });
 }
+
+/* ------------------- btn clear search field function ------------------- */
+$("#btnClearSearchOrderField").click(function () {
+    $("#txtSearchOrderId").val("");
+    $("#txtSearchOrderId").css('border', '1px solid #ced4da');
+    $("#txtSearchOrderId").focus();
+    loadAllOrders();
+    loadOrderDetailTable();
+    bindOrderDetailsClickEvent()
+});
